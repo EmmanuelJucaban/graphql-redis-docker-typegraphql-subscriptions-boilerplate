@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node dist/index.js",
+    "dev": "nodemon --exec ts-node index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.18.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "graphql": "^15.3.0",
+    "graphql-redis-subscriptions": "^2.2.2",
+    "ioredis": "^4.17.3",
+    "reflect-metadata": "^0.1.13",
+    "supertest": "^5.0.0",
+    "type-graphql": "^1.0.0-rc.3"
+  },
+  "devDependencies": {
+    "@types/ioredis": "4.17.3",
+    "nodemon": "2.0.4",
+    "ts-node": "8.10.2",
+    "typescript": "^3.9.7"
+  }
+}

@@ -1,0 +1,28 @@
+version: '3'
+services:
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    depends_on:
+      - server
+    ports:
+      - '3050:80'
+  redis:
+    image: 'redis:latest'
+  server:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      #      Use all of the files inside of the ./server folder to build this image
+      context: ./server
+    volumes:
+      #      -Dont try to override this folder inside of the container
+      - /app/node_modules
+      #      Tells container that whenever it looks for something inside of the app folder in the container
+      #      except for the node modules, look for that something in the server folder in our current dir
+      - ./server:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
