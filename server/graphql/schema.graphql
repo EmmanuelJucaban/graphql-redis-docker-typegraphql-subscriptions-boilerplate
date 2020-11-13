@@ -15,18 +15,43 @@ input CommentInput {
   recipeId: ID!
 }
 
+input CreateRanchInput {
+  active: Boolean!
+  code: String!
+  exportIdentifier: String
+  name: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
+input FetchRanchInput {
+  id: String!
+}
+
 type Mutation {
   addNewComment(comment: CommentInput!): Boolean!
+  createRanch(createRanchInput: CreateRanchInput!): Ranch!
 }
 
 type Query {
+  fetchRanch(fetchRanchInput: FetchRanchInput!): Ranch!
+  fetchRanches: [Ranch!]!
   hollaYee: String!
   recipe(id: ID!): Recipe
+}
+
+"""Ranch Resource"""
+type Ranch {
+  active: Boolean
+  code: String
+  createdAt: DateTime
+  exportIdentifier: String
+  id: ID!
+  name: String!
+  updatedAt: DateTime
 }
 
 type Recipe {
@@ -38,5 +63,6 @@ type Recipe {
 
 type Subscription {
   newComments(recipeId: ID!): Comment!
+  newRanch: Ranch!
   newStuff: String!
 }

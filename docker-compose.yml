@@ -23,6 +23,7 @@ services:
       #      Tells container that whenever it looks for something inside of the app folder in the container
       #      except for the node modules, look for that something in the server folder in our current dir
       - ./server:/app
+      - ./server/.env
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379

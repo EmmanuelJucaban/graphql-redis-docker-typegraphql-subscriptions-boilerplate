@@ -4,6 +4,22 @@ import Redis from 'ioredis';
 import path from "path";
 import { buildSchema } from 'type-graphql';
 import { RecipeResolver } from '../recipe.resolver';
+import { connect, set, } from 'mongoose';
+import { RanchResolver } from './Ranch/RanchResolver';
+import { RanchModel } from './Ranch/RanchSchema';
+
+
+export const db = {
+  Ranch: RanchModel,
+};
+
+const createContext = async (req, res) => {
+  return {
+    db,
+    req,
+    res,
+  };
+}
 
 export const createSchema = async () => {
   const options: Redis.RedisOptions = {
@@ -21,7 +37,10 @@ export const createSchema = async () => {
 
 // Build the TypeGraphQL schema
   return await buildSchema({
-    resolvers: [ RecipeResolver ],
+    resolvers: [
+      RecipeResolver,
+      RanchResolver,
+    ],
     validate: false,
     pubSub, // provide redis-based instance of PubSub
     emitSchemaFile: path.resolve(__dirname, 'schema.graphql'),
@@ -42,6 +61,7 @@ export const createApolloServer = async function (): Promise<ApolloServer> {
         'request.credentials': 'same-origin',
       },
     },
+    context: createContext,
     uploads: false,
   });
 };
